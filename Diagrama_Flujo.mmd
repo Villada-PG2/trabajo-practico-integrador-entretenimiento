@@ -31,5 +31,19 @@ classDiagram
     class Tipo_Sector {
         +float precioBase
         +Time horarioacceso
+        
     }
-    
+
+    class Entrada {
+        +int numeroEntrada
+        +DateTime fechaHoraEmision
+        +float importeFinal
+        +string codigoQR
+        +imprimirEntrada()
+    }
+
+    class Tipo_Entrada {
+        +string descripcion
+        +float porcentajeDescuento
+        +float precioFinal
+    }
