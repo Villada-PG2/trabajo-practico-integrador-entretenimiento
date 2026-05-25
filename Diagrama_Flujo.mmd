@@ -25,6 +25,8 @@ classDiagram
         +string leyenda
         +int capacidadTotal
         +int capacidadDisponible
+        +int Cantidad_Entradas
+
 
     }
 
@@ -47,3 +49,19 @@ classDiagram
         +float porcentajeDescuento
         +float precioFinal
     }
+
+    class ReporteRecaudado {
+        +int cantidadVendida
+        +float montoTotalFacturado
+        +imprimirReporte()
+        +GuardarPDF()
+        +enviarEmail()
+    }
+
+    Empresa --> "1..*" Espectaculo
+    Espectaculo --> "1..*" Sector
+    Sector --> "1" Tipo_Sector
+    Sector --> "1..*" Entrada
+    Entrada --> "1" Tipo_Entrada
+    Espectaculo --> "1..*" ReporteRecaudado
+    
