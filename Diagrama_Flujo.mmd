@@ -1,0 +1,31 @@
+classDiagram
+    class Empresa {
+        +string nombre
+        +BuscarEspectaculo()
+        +GenerarReportes()
+        }
+    
+    class Espectaculo {
+        +string nombre
+        +string artista
+        +date fecha
+        +time horainicio
+        +time horafin
+        +string lugar
+        +string descripcion 
+        +string direccionLugar
+        +consultarDisponibilidad()
+    }
+
+    class Sector {
+        +string nombre_sector
+        +string direccion
+        +string UbicaciondeCadaSector
+        +string  descripcion
+        +string leyenda
+        +int capacidadTotal
+        +int capacidadDisponible
+
+    }
+
+    
