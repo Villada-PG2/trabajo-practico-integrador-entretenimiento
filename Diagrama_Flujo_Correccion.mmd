@@ -1,0 +1,86 @@
+classDiagram
+    class Empresa {
+        +string nombre
+        +BuscarEspectaculo()
+        +GenerarReportes()
+    }
+    
+    class Usuario {
+        +string nombre
+        +string email
+        +string contraseña
+        -autenticar()
+    }
+
+    class Espectaculo {
+        +string nombre
+        +string artista
+        +string lugar
+        +string descripcion 
+        +string direccionLugar
+        +consultarDisponibilidad()
+    }
+
+    class Funcion {
+        +date fecha
+        +time horainicio
+        +time horafin
+        -consultarDisponibilidad()
+
+    }
+
+    class Sector {
+        +string nombre_sector
+        +string direccion
+        +string UbicaciondeCadaSector
+        +string descripcion
+        +string leyenda
+        +int capacidadTotal
+    }
+
+    class FuncionSector {
+        +int capacidadDisponible
+        +int Cantidad_Entradas
+        +float precioBase
+        +time horarioacceso
+    }
+
+    class Reserva {
+        +DateTime fechaHoraReserva
+        +float montoTotal
+        +confirmarReserva()
+    }
+
+    class Entrada {
+        +int numeroEntrada
+        +DateTime fechaHoraEmision
+        +float importeFinal
+        +string codigoQR
+        +imprimirEntrada()
+        +EntregarQR()
+    }
+
+    class Tipo_Entrada {
+        +string descripcion
+        +float porcentajeDescuento
+        +float precioFinal
+    }
+
+    class ReporteRecaudado {
+        +int cantidadVendida
+        +float montoTotalFacturado
+        +imprimirReporte()
+        +GuardarPDF()
+        +enviarEmail()
+    }
+
+    Empresa --> "1..*" Espectaculo
+    Empresa --> "1..*" Usuario
+    Espectaculo --> "1..*" Funcion
+    Funcion --> "1..*" FuncionSector
+    Sector --> "1..*" FuncionSector
+    Usuario --> "1..*" Reserva
+    Reserva --> "1..*" Entrada
+    FuncionSector --> "1..*" Entrada
+    Entrada --> "1" Tipo_Entrada
+    Espectaculo --> "1..*" ReporteRecaudado
