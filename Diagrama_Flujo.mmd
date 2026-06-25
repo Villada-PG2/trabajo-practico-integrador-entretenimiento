@@ -1,18 +1,26 @@
 classDiagram
+
     class Empresa {
         +string nombre
         +BuscarEspectaculo()
         +GenerarReportes()
-        }
-    
+    }
+
+    class Usuario {
+        +string nombre
+        +string email
+        +string password
+        +autenticar()
+    }
+
     class Espectaculo {
         +string nombre
         +string artista
         +date fecha
-        +time horainicio
-        +time horafin
+        +time horaInicio
+        +time horaFin
         +string lugar
-        +string descripcion 
+        +string descripcion
         +string direccionLugar
         +consultarDisponibilidad()
     }
@@ -20,20 +28,17 @@ classDiagram
     class Sector {
         +string nombre_sector
         +string direccion
-        +string UbicaciondeCadaSector
-        +string  descripcion
+        +string ubicacionDeCadaSector
+        +string descripcion
         +string leyenda
         +int capacidadTotal
-        +int capacidadDisponible
-        +int Cantidad_Entradas
-
-
     }
 
-    class Tipo_Sector {
+    class SectorEspectaculo {
         +float precioBase
-        +Time horarioacceso
-        
+        +time horarioAcceso
+        +int capacidadDisponible
+        +int cantidadEntradas
     }
 
     class Entrada {
@@ -50,19 +55,32 @@ classDiagram
         +float precioFinal
     }
 
+    class Venta {
+        +int numeroVenta
+        +DateTime fechaHora
+        +float importeTotal
+        +registrarVenta()
+    }
+
     class ReporteRecaudado {
         +int cantidadVendida
         +float montoTotalFacturado
         +imprimirReporte()
-        +GuardarPDF()
+        +guardarPDF()
         +enviarEmail()
     }
 
+    Empresa --> "1..*" Usuario
     Empresa --> "1..*" Espectaculo
-    Espectaculo --> "1..*" Sector
-    Sector --> "1" Tipo_Sector
-    Sector --> "1..*" Entrada
-    Entrada --> "1" Tipo_Entrada
-    Espectaculo --> "1..*" ReporteRecaudado
 
-    
+    Espectaculo --> "1..*" SectorEspectaculo
+    Sector --> "1..*" SectorEspectaculo
+
+    Sector --> "1..*" Entrada
+
+    Entrada --> "1" Tipo_Entrada
+
+    Usuario --> "1..*" Venta
+    Venta --> "1..*" Entrada
+
+    Espectaculo --> "1..*" ReporteRecaudado
