@@ -22,3 +22,19 @@ class Sector(BaseModel):
     descripcion: Optional[str] = Field(default=None, description="descripcion del sector")
     leyenda: Optional[str] = Field(default=None, description="leyenda del sector")
     capacidad_total: int = Field(..., description="capacidad total del sector")
+
+class FuncionSector(BaseModel):
+    sector: Sector = Field(..., description="sector al que pertenece")
+    capacidad_disponible: int = Field(..., description="lugares todavia disponibles")
+    cantidad_entradas: int = Field(default=0, description="cantidad de entradas ya emitidas")
+    precio_base: float = Field(..., description="precio base de la entrada en este sector")
+    horario_acceso: time = Field(..., description="horario de acceso al sector")
+
+    entradas: List[Entrada] = Field(default_factory=list, description="entradas emitidas para este sector")
+
+class Funcion(BaseModel):
+    fecha: date = Field(..., description="fecha de la funcion")
+    hora_inicio: time = Field(..., description="hora de inicio")
+    hora_fin: time = Field(..., description="hora de fin")
+
+    funciones_sector: List[FuncionSector] = Field(default_factory=list, description="sectores habilitados en la funcion")
