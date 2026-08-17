@@ -38,3 +38,39 @@ class Funcion(BaseModel):
     hora_fin: time = Field(..., description="hora de fin")
 
     funciones_sector: List[FuncionSector] = Field(default_factory=list, description="sectores habilitados en la funcion")
+
+
+class ReporteRecaudado(BaseModel):
+    cantidad_vendida: int = Field(..., description="cantidad de entradas vendidas")
+    monto_total_facturado: float = Field(..., description="monto total facturado")
+    fecha_generacion: datetime = Field(default_factory=datetime.now, description="fecha de generacion del reporte")
+
+class Espectaculo(BaseModel):
+    nombre: str = Field(..., description="nombre del espectaculo")
+    artista: str = Field(..., description="artista del espectaculo")
+    lugar: str = Field(..., description="lugar donde se realiza")
+    descripcion: Optional[str] = Field(default=None, description="descripcion del espectaculo")
+    direccion_lugar: str = Field(..., description="direccion del lugar")
+
+    funciones: List[Funcion] = Field(default_factory=list, description="funciones del espectaculo")
+    reportes: List[ReporteRecaudado] = Field(default_factory=list, description="reportes generados")
+
+class Reserva(BaseModel):
+    fecha_hora_reserva: datetime = Field(default_factory=datetime.now, description="fecha y hora de la reserva")
+    monto_total: float = Field(default=0, description="monto total de la reserva")
+    confirmada: bool = Field(default=False, description="indica si la reserva fue confirmada")
+
+    entradas: List[Entrada] = Field(default_factory=list, description="entradas incluidas en la reserva")
+
+class Usuario(BaseModel):
+    nombre: str = Field(..., min_length=3, description="nombre del usuario")
+    email: str = Field(..., description="email del usuario")
+    contraseña: str = Field(..., min_length=8, description="contraseña del usuario")
+
+    reservas: List[Reserva] = Field(default_factory=list, description="reservas del usuario")
+
+class Empresa(BaseModel):
+    nombre: str = Field(..., description="nombre de la empresa")
+
+    espectaculos: List[Espectaculo] = Field(default_factory=list, description="espectaculos de la empresa")
+    usuarios: List[Usuario] = Field(default_factory=list, description="usuarios registrados")
