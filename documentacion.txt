@@ -1,0 +1,49 @@
+# Trabajo Práctico Integrador - Plataforma de Entretenimiento
+
+## Objetivo
+Desarrollar una plataforma digital que permita a los usuarios consultar eventos, seleccionar espectáculos y gestionar la compra de entradas de manera rápida, organizada e intuitiva.
+
+## Alcance
+El sistema permitirá:
+- Visualizar eventos disponibles
+- Buscar espectáculos por categoría, fecha o ubicación
+- Consultar detalles de cada evento
+- Seleccionar entradas
+- Confirmar reservas
+- Generar códigos QR
+
+No incluirá:
+- Procesamiento real de pagos
+- Integración con servicios externos
+- Validación física de entradas
+
+## Entradas
+El sistema recibirá:
+
+- Datos de registro del usuario
+- Inicio de sesión (correo y contraseña)
+- Búsquedas de eventos
+- Selección de funciones
+- Cantidad de entradas
+- Confirmación de reserva
+
+## Salidas
+El sistema generará:
+
+- Listado de eventos disponibles
+- Información detallada del espectáculo
+- Confirmación de reserva
+- Código QR de acceso
+- Historial de reservas
+
+## Fronteras del sistema
+### Dentro del sistema
+- Gestión de usuarios
+- Catálogo de eventos
+- Reserva de entradas
+- Generación de QR
+
+### Fuera del sistema
+- Pasarela de pago real
+- Validación presencial
+- Administración externa de eventos
