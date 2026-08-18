@@ -2,7 +2,6 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from typing import Optional, List
 from datetime import datetime, date, time, timedelta
 
-# Listas "en memoria"
 SECTORES = []
 TIPOS_ENTRADA = []
 ESPECTACULOS = []
@@ -17,9 +16,7 @@ def proximo_numero_entrada():
     ULTIMO_NUMERO_ENTRADA += 1
     return ULTIMO_NUMERO_ENTRADA
 
-# ---------------------------------------------------------------------------
-# Tipo_Entrada
-# --------------------------------------------------------------------------
+
 
 class Tipo_Entrada(BaseModel):
     descripcion: str = Field(..., description="descripcion del tipo de entrada (General, VIP, Jubilado...)")
@@ -40,9 +37,7 @@ class Tipo_Entrada(BaseModel):
         self.precio_final = precio_base - (precio_base * self.porcentaje_descuento / 100)
         return self.precio_final
         
-# ---------------------------------------------------------------------------
-# Entrada
-# ---------------------------------------------------------------------------
+
     
 class Entrada(BaseModel):
     numero_entrada: int = Field(..., description="numero de la entrada")
@@ -72,9 +67,7 @@ class Entrada(BaseModel):
         print(f"Enviando codigo QR: {self.codigo_qr}")
         return self.codigo_qr
 
-# ---------------------------------------------------------------------------
-# Sector
-# ---------------------------------------------------------------------------
+
 
 class Sector(BaseModel):
     nombre_sector: str = Field(..., description="nombre del sector")
@@ -91,9 +84,7 @@ class Sector(BaseModel):
             raise ValueError("La capacidad total debe ser mayor a 0")
         return valor
 
-# ---------------------------------------------------------------------------
-# FuncionSector (clase intermedia entre Funcion y Sector)
-# ---------------------------------------------------------------------------
+
 
 class FuncionSector(BaseModel):
     sector: Sector = Field(..., description="sector al que pertenece")
@@ -154,9 +145,7 @@ class FuncionSector(BaseModel):
             total += entrada.importe_final
         return total
 
-# ---------------------------------------------------------------------------
-# Funcion
-# ---------------------------------------------------------------------------
+
 
 class Funcion(BaseModel):
     fecha: date = Field(..., description="fecha de la funcion")
@@ -206,9 +195,7 @@ class Funcion(BaseModel):
             total += funcion_sector.calcular_recaudacion()
         return total
 
-# ---------------------------------------------------------------------------
-# ReporteRecaudado
-# ---------------------------------------------------------------------------
+
 
 class ReporteRecaudado(BaseModel):
     cantidad_vendida: int = Field(..., description="cantidad de entradas vendidas")
@@ -232,9 +219,7 @@ class ReporteRecaudado(BaseModel):
         print(f"Enviando el reporte a {email}...")
         return True
 
-# ---------------------------------------------------------------------------
-# Espectaculo
-# ---------------------------------------------------------------------------
+
 
 class Espectaculo(BaseModel):
     nombre: str = Field(..., description="nombre del espectaculo")
@@ -280,9 +265,7 @@ class Espectaculo(BaseModel):
         self.reportes.append(reporte)
         return reporte
 
-# ---------------------------------------------------------------------------
-# Reserva
-# ---------------------------------------------------------------------------
+
 
 class Reserva(BaseModel):
     fecha_hora_reserva: datetime = Field(default_factory=datetime.now, description="fecha y hora de la reserva")
@@ -317,9 +300,6 @@ class Reserva(BaseModel):
         else:
             return False
 
-# ---------------------------------------------------------------------------
-# Usuario
-# ---------------------------------------------------------------------------
 
 class Usuario(BaseModel):
     nombre: str = Field(..., min_length=3, description="nombre del usuario")
@@ -367,9 +347,7 @@ class Usuario(BaseModel):
         return total
 
 
-# ---------------------------------------------------------------------------
-# Empresa
-# ---------------------------------------------------------------------------
+
 
 class Empresa(BaseModel):
     nombre: str = Field(..., description="nombre de la empresa")
@@ -403,13 +381,11 @@ class Empresa(BaseModel):
 
 
 
-# ---------------------------------------------------------------------------
-# Programa principal de prueba (validacion)
-# ---------------------------------------------------------------------------
+
 
 if __name__ == "__main__":
 
-    # --- Sectores ---
+
     SECTORES.append(Sector(nombre_sector="Campo", direccion="Av. Colon 1500",
                            ubicacion_de_cada_sector="Frente al escenario",
                            descripcion="Sector de pie", leyenda="Sin asiento",
@@ -420,12 +396,12 @@ if __name__ == "__main__":
                            descripcion="Sector con asientos numerados", leyenda="Numerado",
                            capacidad_total=200))
 
-    # --- Tipos de entrada ---
+    
     TIPOS_ENTRADA.append(Tipo_Entrada(descripcion="General", porcentaje_descuento=0))
     TIPOS_ENTRADA.append(Tipo_Entrada(descripcion="Estudiante", porcentaje_descuento=20))
     TIPOS_ENTRADA.append(Tipo_Entrada(descripcion="Jubilado", porcentaje_descuento=50))
 
-    # --- FuncionSector (cruce Funcion x Sector) ---
+    
     funcion_sector_campo = FuncionSector(sector=SECTORES[0],
                                          capacidad_disponible=500,
                                          precio_base=10000,
@@ -436,7 +412,7 @@ if __name__ == "__main__":
                                           precio_base=18000,
                                           horario_acceso=time(19, 30))
 
-    # --- Funcion ---
+    
     hoy = datetime.now()
 
     funcion1 = Funcion(fecha=(hoy + timedelta(days=15)).date(),
@@ -446,7 +422,7 @@ if __name__ == "__main__":
     funcion1.agregar_funcion_sector(funcion_sector_campo)
     funcion1.agregar_funcion_sector(funcion_sector_platea)
 
-    # --- Espectaculo ---
+    
     espectaculo1 = Espectaculo(nombre="Gira Nacional 2026",
                                artista="Los del Sur",
                                lugar="Estadio Kempes",
@@ -456,11 +432,11 @@ if __name__ == "__main__":
     espectaculo1.agregar_funcion(funcion1)
     ESPECTACULOS.append(espectaculo1)
 
-    # --- Usuarios ---
+    
     usuario1 = Usuario(nombre="Teo", email="teo@itsv.edu.ar", contraseña="123123123")
     USUARIOS.append(usuario1)
 
-    # --- Empresa ---
+    
     empresa = Empresa(nombre="TicketITSV")
     empresa.agregar_espectaculo(espectaculo1)
     empresa.agregar_usuario(usuario1)
